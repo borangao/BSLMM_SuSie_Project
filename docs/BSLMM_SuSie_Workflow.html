@@ -495,16 +495,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong6cfd979"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 6cfd979 </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong7e0306f"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 7e0306f </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong6cfd979" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrong7e0306f" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 6cfd979. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version 7e0306f. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -550,6 +550,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+7e0306f
+</td>
+<td>
+Boran Gao
+</td>
+<td>
+2021-01-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -603,11 +620,48 @@ res2 = susie_BSLMM(X,Y,L=10)
 BSLMM_susie_time&lt;-Sys.time()-start.time
 print(c(susie_time,BSLMM_susie_time))</code></pre>
 <pre><code>Time differences in secs
-[1] 0.1616039 0.3049769</code></pre>
+[1] 0.1550992 0.2771368</code></pre>
 <pre class="r"><code>par(mfrow=c(1,2))
 plot(beta,coef(res1)[-1],main=&quot;Susie&quot;,xlab = &quot;True Beta&quot;,ylab = &quot;Est&quot;)
 plot(beta,res2$beta,main=&quot;BSLMM Susie&quot;,xlab = &quot;True Beta&quot;,ylab = &quot;Est&quot;)</code></pre>
 <p><img src="figure/BSLMM_SuSie_Workflow.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
+Past versions of unnamed-chunk-1-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+7e0306f
+</td>
+<td>
+Boran Gao
+</td>
+<td>
+2021-01-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res1$sets</code></pre>
 <pre><code>$cs
 $cs$L1
