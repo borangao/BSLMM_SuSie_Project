@@ -1,0 +1,46 @@
+---
+title: "BSLMM_SuSie"
+author: "Boran Gao"
+date: "1/21/2021"
+output: html_document
+---
+
+```{r}
+library(susieR)
+##install_github("borangao/BSLMMSusie")
+library(BSLMMSusie)
+set.seed(1)
+n = 1000
+p = 100
+beta = rep(0,p)
+beta[1:4] = 1
+#X = matrix(rnorm(n*p),nrow = n,ncol = p)
+#X = scale(X)
+X = matrix(sample(c(0,1,2),n*p,replace = T), nrow = n, ncol = p)
+X = scale(X)
+z = rnorm(p,0,sqrt(0.5/p))
+Y = drop(X %*% beta +X%*%z+rnorm(n))
+true_sigma_k = var(X%*%z)/var(Y)
+true_sigma = 1/var(Y)
+Y= scale(Y)
+
+start.time<-Sys.time()
+res1 = susie(X,Y,L = 10)
+susie_time<-Sys.time()-start.time
+
+start.time<-Sys.time()
+res2 = susie_BSLMM(X,Y,L=10)
+BSLMM_susie_time<-Sys.time()-start.time
+print(c(susie_time,BSLMM_susie_time))
+
+par(mfrow=c(1,2))
+plot(beta,coef(res1)[-1],main="Susie",xlab = "True Beta",ylab = "Est")
+plot(beta,res2$beta,main="BSLMM Susie",xlab = "True Beta",ylab = "Est")
+
+res1$sets
+res2$sets
+####BSLMM Susie
+
+
+```
+
