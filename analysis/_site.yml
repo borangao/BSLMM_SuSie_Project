@@ -1,7 +1,7 @@
-name: "BSLMM_SuSie_Project"
+name: BSLMM_SuSie_Project
 output_dir: ../docs
 navbar:
-  title: "BSLMM_SuSie_Project"
+  title: BSLMM_SuSie_Project
   left:
   - text: Home
     href: index.html
@@ -9,6 +9,10 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/borangao/BSLMM_SuSie_Project
 output:
   workflowr::wflow_html:
     toc: yes
