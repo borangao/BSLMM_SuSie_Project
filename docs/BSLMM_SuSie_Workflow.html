@@ -503,16 +503,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomborangaoBSLMMSuSieProjecttreedb7c024246b71d07ccc7c822288ac22d0f861121targetblankdb7c024a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/borangao/BSLMM_SuSie_Project/tree/db7c024246b71d07ccc7c822288ac22d0f861121" target="_blank">db7c024</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomborangaoBSLMMSuSieProjecttree3927d3cb174788750c10bf8ed3f27bb7c1c72345targetblank3927d3ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/borangao/BSLMM_SuSie_Project/tree/3927d3cb174788750c10bf8ed3f27bb7c1c72345" target="_blank">3927d3c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomborangaoBSLMMSuSieProjecttreedb7c024246b71d07ccc7c822288ac22d0f861121targetblankdb7c024a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomborangaoBSLMMSuSieProjecttree3927d3cb174788750c10bf8ed3f27bb7c1c72345targetblank3927d3ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/borangao/BSLMM_SuSie_Project/tree/db7c024246b71d07ccc7c822288ac22d0f861121" target="_blank">db7c024</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/borangao/BSLMM_SuSie_Project/tree/3927d3cb174788750c10bf8ed3f27bb7c1c72345" target="_blank">3927d3c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -561,6 +561,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/borangao/BSLMM_SuSie_Project/blob/3927d3cb174788750c10bf8ed3f27bb7c1c72345/analysis/BSLMM_SuSie_Workflow.Rmd" target="_blank">3927d3c</a>
+</td>
+<td>
+Boran Gao
+</td>
+<td>
+2021-01-21
+</td>
+<td>
+Update Analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/borangao/BSLMM_SuSie_Project/f1b15c685a587b943e045dd61efbe1ec8014da32/docs/BSLMM_SuSie_Workflow.html" target="_blank">f1b15c6</a>
+</td>
+<td>
+Boran Gao
+</td>
+<td>
+2021-01-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -727,14 +761,14 @@ when loading &#39;dplyr&#39;</code></pre>
 <pre class="r"><code>##install_github(&quot;borangao/BSLMMSusie&quot;)
 library(BSLMMSusie)
 set.seed(1)
-n = 1000
-p = 100
+n = 1e5; 
+p = 1000; 
+maf &lt;- 0.05 + 0.45*runif(p)
+X   &lt;- (runif(n*p) &lt; maf) + (runif(n*p) &lt; maf)
+X   &lt;- matrix(as.double(X),n,p,byrow = TRUE)
+X = scale(X)
 beta = rep(0,p)
 beta[1:4] = 1
-#X = matrix(rnorm(n*p),nrow = n,ncol = p)
-#X = scale(X)
-X = matrix(sample(c(0,1,2),n*p,replace = T), nrow = n, ncol = p)
-X = scale(X)
 z = rnorm(p,0,sqrt(0.5/p))
 Y = drop(X %*% beta +X%*%z+rnorm(n))
 true_sigma_k = var(X%*%z)/var(Y)
@@ -749,9 +783,10 @@ start.time&lt;-Sys.time()
 res2 = susie_BSLMM(X,Y,L=10)
 BSLMM_susie_time&lt;-Sys.time()-start.time
 print(c(susie_time,BSLMM_susie_time))</code></pre>
-<pre><code>Time differences in secs
-[1] 0.1571391 0.2916288</code></pre>
-<pre class="r"><code>par(mfrow=c(1,2))
+<pre><code>Time differences in mins
+[1]  1.344927 22.819259</code></pre>
+<pre class="r"><code>######Estimated Beta
+par(mfrow=c(1,2))
 plot(beta,coef(res1)[-1],main=&quot;Susie&quot;,xlab = &quot;True Beta&quot;,ylab = &quot;Est&quot;)
 plot(beta,res2$beta,main=&quot;BSLMM Susie&quot;,xlab = &quot;True Beta&quot;,ylab = &quot;Est&quot;)</code></pre>
 <p><img src="figure/BSLMM_SuSie_Workflow.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -792,34 +827,35 @@ Boran Gao
 </table>
 </div>
 </div>
-<pre class="r"><code>res1$sets</code></pre>
+<pre class="r"><code>#### Identified Sets of causaul snps
+res1$sets</code></pre>
 <pre><code>$cs
 $cs$L1
 [1] 4
 
 $cs$L2
-[1] 1
-
-$cs$L3
-[1] 2
-
-$cs$L4
 [1] 3
 
+$cs$L3
+[1] 1
+
+$cs$L4
+[1] 2
+
 $cs$L5
-[1] 34
+[1] 915
 
 $cs$L6
-[1] 87
+[1] 268
 
 $cs$L7
-[1] 7
+[1] 518
 
 $cs$L8
-[1] 72
+[1] 425
 
 $cs$L9
-[1] 73
+[1] 609
 
 
 $purity
@@ -838,8 +874,8 @@ $cs_index
 [1] 1 2 3 4 5 6 7 8 9
 
 $coverage
-[1] 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 0.9954721 0.9756854
-[8] 0.9771051 0.9902188
+[1] 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
+[8] 1.0000000 0.9999806
 
 $requested_coverage
 [1] 0.95</code></pre>
@@ -849,13 +885,13 @@ $cs$L1
 [1] 4
 
 $cs$L2
-[1] 1
+[1] 3
 
 $cs$L3
-[1] 2
+[1] 1
 
 $cs$L4
-[1] 3
+[1] 2
 
 
 $purity
@@ -873,7 +909,87 @@ $coverage
 
 $requested_coverage
 [1] 0.95</code></pre>
-<pre class="r"><code>####BSLMM Susie</code></pre>
+<pre class="r"><code>####KL Divergence of SuSie and BSLMM Susie
+res1$KL</code></pre>
+<pre><code> [1] 12.500594 12.492730 12.463134 12.445681  9.953637  9.906911  9.877083
+ [8]  9.713053  9.667843  9.151747</code></pre>
+<pre class="r"><code>res2$KL</code></pre>
+<pre><code> [1] 183.341199 176.237073 176.881114 172.866090   1.682649   1.675755
+ [7]   1.676023   1.682562   1.689448   1.690685</code></pre>
+<pre class="r"><code>###Our extension has smaller KL when there is no signal, while Susie has large KL when there is no signal
+
+####ELBO of two methods
+res1$elbo</code></pre>
+<pre><code>[1] -105303.66  -75742.64  -75740.82  -75740.32  -75740.32</code></pre>
+<pre class="r"><code>res2$ELBO</code></pre>
+<pre><code> [1] -76308.24 -73518.63 -70042.83 -66862.28 -64336.50 -62482.51 -61194.67
+ [8] -60335.01 -59792.82 -59463.76 -59284.66 -59205.57 -59183.25 -59179.38
+[15] -59178.78 -59178.72 -59178.76 -59178.81 -59178.88 -59178.95 -59179.03
+[22] -59179.13 -59179.25 -59179.38 -59179.51 -59179.62 -59179.70 -59179.73
+[29] -59179.73 -59179.70 -59179.68 -59179.66 -59179.64 -59179.63 -59179.62
+[36] -59179.62 -59179.62</code></pre>
+<pre class="r"><code>####Sigma2, sigma_b and sigma_k estimate checking
+
+print(paste0(&quot;True sigma_k is &quot;,round(true_sigma_k,4), &quot; and estimated sigma_k is &quot;,round(res2$sigma_k*res2$sigma2,4)))</code></pre>
+<pre><code>[1] &quot;True sigma_k is 0.0894 and estimated sigma_k is 0.0887&quot;</code></pre>
+<pre class="r"><code>print(paste0(&quot;True sigma_2 is &quot;,round(true_sigma,4), &quot; and SuSie estimated sigma_2 is &quot;,round(res1$sigma2,2),&quot; and BSLMM SuSie estimated sigma_2 is &quot;,round(res2$sigma2,2)))</code></pre>
+<pre><code>[1] &quot;True sigma_2 is 0.1818 and SuSie estimated sigma_2 is 0.27 and BSLMM SuSie estimated sigma_2 is 0.18&quot;</code></pre>
+<pre class="r"><code>print(paste0(&quot;Susie Sigma_b estimates are &quot;,res1$V))</code></pre>
+<pre><code> [1] &quot;Susie Sigma_b estimates are 0.191573108252108&quot;   
+ [2] &quot;Susie Sigma_b estimates are 0.188583370190266&quot;   
+ [3] &quot;Susie Sigma_b estimates are 0.177744859400418&quot;   
+ [4] &quot;Susie Sigma_b estimates are 0.171647281325513&quot;   
+ [5] &quot;Susie Sigma_b estimates are 0.00117246256045328&quot; 
+ [6] &quot;Susie Sigma_b estimates are 0.00106761984165079&quot; 
+ [7] &quot;Susie Sigma_b estimates are 0.00100563712136296&quot; 
+ [8] &quot;Susie Sigma_b estimates are 0.000723636953477048&quot;
+ [9] &quot;Susie Sigma_b estimates are 0.000661156717717912&quot;
+[10] &quot;Susie Sigma_b estimates are 0.000632495585922018&quot;</code></pre>
+<pre class="r"><code>print(paste0(&quot;BSLMM Susie Sigma_b estimates are &quot;,res2$sigma_b))</code></pre>
+<pre><code> [1] &quot;BSLMM Susie Sigma_b estimates are 0.190885614964917&quot;   
+ [2] &quot;BSLMM Susie Sigma_b estimates are 0.188731785869072&quot;   
+ [3] &quot;BSLMM Susie Sigma_b estimates are 0.177746232472951&quot;   
+ [4] &quot;BSLMM Susie Sigma_b estimates are 0.171436275199714&quot;   
+ [5] &quot;BSLMM Susie Sigma_b estimates are 0.000104488788371706&quot;
+ [6] &quot;BSLMM Susie Sigma_b estimates are 0.000104057338163479&quot;
+ [7] &quot;BSLMM Susie Sigma_b estimates are 0.000104074115287415&quot;
+ [8] &quot;BSLMM Susie Sigma_b estimates are 0.000104483389051389&quot;
+ [9] &quot;BSLMM Susie Sigma_b estimates are 0.000104914333392795&quot;
+[10] &quot;BSLMM Susie Sigma_b estimates are 0.000104991786381773&quot;</code></pre>
+<pre class="r"><code>####Check when there is no genetic relatedness impact
+
+
+####Check robustness of sigma_k on estimation
+sigma_k_estimates&lt;-c()
+for(sigma_k in c(seq(0.1,0.9,0.1))){
+n = 1000; 
+p = 100; 
+maf &lt;- 0.05 + 0.45*runif(p)
+X   &lt;- (runif(n*p) &lt; maf) + (runif(n*p) &lt; maf)
+X   &lt;- matrix(as.double(X),n,p,byrow = TRUE)
+X = scale(X)
+beta = rep(0,p)
+beta[1:4] = 1
+z = rnorm(p,0,sqrt(sigma_k/p))
+Y = drop(X %*% beta +X%*%z+rnorm(n))
+true_sigma_k = var(X%*%z)/var(Y)
+true_sigma = 1/var(Y)
+Y= scale(Y)
+res_bslmm_susie = susie_BSLMM(X,Y,L=10)
+sigma_k_estimates&lt;-rbind(sigma_k_estimates,c(true_sigma_k,res_bslmm_susie$sigma2*res_bslmm_susie$sigma_k))
+}
+sigma_k_estimates</code></pre>
+<pre><code>            [,1]       [,2]
+ [1,] 0.01582632 0.02078323
+ [2,] 0.04799213 0.05426972
+ [3,] 0.07074834 0.06685729
+ [4,] 0.05629248 0.06868011
+ [5,] 0.09117570 0.09653516
+ [6,] 0.09493218 0.09118018
+ [7,] 0.12537389 0.13272983
+ [8,] 0.14494566 0.14914747
+ [9,] 0.13040394 0.11892025</code></pre>
+<pre class="r"><code>###Method is robust to sigma_k</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
