@@ -10,14 +10,14 @@ library(susieR)
 ##install_github("borangao/BSLMMSusie")
 library(BSLMMSusie)
 set.seed(1)
-n = 1000
-p = 100
+n = 1e5; 
+p = 1000; 
+maf <- 0.05 + 0.45*runif(p)
+X   <- (runif(n*p) < maf) + (runif(n*p) < maf)
+X   <- matrix(as.double(X),n,p,byrow = TRUE)
+X = scale(X)
 beta = rep(0,p)
 beta[1:4] = 1
-#X = matrix(rnorm(n*p),nrow = n,ncol = p)
-#X = scale(X)
-X = matrix(sample(c(0,1,2),n*p,replace = T), nrow = n, ncol = p)
-X = scale(X)
 z = rnorm(p,0,sqrt(0.5/p))
 Y = drop(X %*% beta +X%*%z+rnorm(n))
 true_sigma_k = var(X%*%z)/var(Y)
@@ -33,14 +33,56 @@ res2 = susie_BSLMM(X,Y,L=10)
 BSLMM_susie_time<-Sys.time()-start.time
 print(c(susie_time,BSLMM_susie_time))
 
+######Estimated Beta
 par(mfrow=c(1,2))
 plot(beta,coef(res1)[-1],main="Susie",xlab = "True Beta",ylab = "Est")
 plot(beta,res2$beta,main="BSLMM Susie",xlab = "True Beta",ylab = "Est")
-
+#### Identified Sets of causaul snps
 res1$sets
 res2$sets
-####BSLMM Susie
+
+####KL Divergence of SuSie and BSLMM Susie
+res1$KL
+res2$KL
+
+###Our extension has smaller KL when there is no signal, while Susie has large KL when there is no signal
+
+####ELBO of two methods
+res1$elbo
+res2$ELBO
+
+####Sigma2, sigma_b and sigma_k estimate checking
+
+print(paste0("True sigma_k is ",round(true_sigma_k,4), " and estimated sigma_k is ",round(res2$sigma_k*res2$sigma2,4)))
+
+print(paste0("True sigma_2 is ",round(true_sigma,4), " and SuSie estimated sigma_2 is ",round(res1$sigma2,2)," and BSLMM SuSie estimated sigma_2 is ",round(res2$sigma2,2)))
+
+print(paste0("Susie Sigma_b estimates are ",res1$V))
+print(paste0("BSLMM Susie Sigma_b estimates are ",res2$sigma_b))
+
+####Check when there is no genetic relatedness impact
 
 
+####Check robustness of sigma_k on estimation
+sigma_k_estimates<-c()
+for(sigma_k in c(seq(0.1,0.9,0.1))){
+n = 1000; 
+p = 100; 
+maf <- 0.05 + 0.45*runif(p)
+X   <- (runif(n*p) < maf) + (runif(n*p) < maf)
+X   <- matrix(as.double(X),n,p,byrow = TRUE)
+X = scale(X)
+beta = rep(0,p)
+beta[1:4] = 1
+z = rnorm(p,0,sqrt(sigma_k/p))
+Y = drop(X %*% beta +X%*%z+rnorm(n))
+true_sigma_k = var(X%*%z)/var(Y)
+true_sigma = 1/var(Y)
+Y= scale(Y)
+res_bslmm_susie = susie_BSLMM(X,Y,L=10)
+sigma_k_estimates<-rbind(sigma_k_estimates,c(true_sigma_k,res_bslmm_susie$sigma2*res_bslmm_susie$sigma_k))
+}
+sigma_k_estimates
+###Method is robust to sigma_k
 ```
 
